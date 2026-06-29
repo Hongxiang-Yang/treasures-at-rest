@@ -4,23 +4,23 @@ import { AppHeader } from "@/components/app-header";
 import { ItemGrid } from "@/components/item-grid";
 import { useItems } from "@/lib/use-items";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/archive")({
   head: () => ({
     meta: [
-      { title: "Inventory — Idle" },
-      { name: "description", content: "Your active second-hand items and their expected value." },
+      { title: "Archive — Idle" },
+      { name: "description", content: "Previously sold or archived items." },
     ],
   }),
-  component: IndexPage,
+  component: ArchivePage,
 });
 
-function IndexPage() {
-  const { items, create, update, remove } = useItems();
-  const visible = useMemo(() => items.filter((i) => i.status !== "archived"), [items]);
-  const active = useMemo(
-    () => visible.filter((i) => i.status === "active" || i.status === "listed"),
-    [visible],
+function ArchivePage() {
+  const { items, update, remove } = useItems();
+  const archived = useMemo(
+    () => items.filter((i) => i.status === "archived" || i.status === "sold"),
+    [items],
   );
+  const active = items.filter((i) => i.status === "active" || i.status === "listed");
   const totalValue = active.reduce((sum, i) => sum + (i.expectedPrice || 0), 0);
 
   return (
@@ -29,19 +29,21 @@ function IndexPage() {
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
         <div className="mb-6">
           <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-            Your inventory
+            Archive
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Things you own, waiting for their next chapter.
+            Items you've sold or set aside. Restore any of them anytime.
           </p>
         </div>
         <ItemGrid
-          items={visible}
-          emptyTitle="Nothing here yet"
-          emptyHint="Add your first item to start tracking its idle time."
-          onCreate={create}
+          items={archived}
+          emptyTitle="Nothing archived yet"
+          emptyHint="When you mark items as sold or archived, they'll appear here."
           onUpdate={update}
           onDelete={remove}
+          showAddButton={false}
+          showStatusFilter={false}
+          defaultSort="recent"
         />
       </main>
     </div>
