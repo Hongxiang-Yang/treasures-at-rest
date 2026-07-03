@@ -4,6 +4,16 @@ import { ItemCard } from "@/components/item-card";
 import { ItemFormDialog } from "@/components/item-form-dialog";
 import { ItemToolbar, type SortKey } from "@/components/item-toolbar";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Package, Plus } from "lucide-react";
 
 export function ItemGrid({
@@ -13,6 +23,7 @@ export function ItemGrid({
   onCreate,
   onUpdate,
   onDelete,
+  onClearAll,
   showStatusFilter = true,
   showAddButton = true,
   defaultSort = "idle",
@@ -23,6 +34,7 @@ export function ItemGrid({
   onCreate?: (data: Omit<Item, "id">) => void;
   onUpdate: (id: string, patch: Partial<Item>) => void;
   onDelete: (id: string) => void;
+  onClearAll?: () => void;
   showStatusFilter?: boolean;
   showAddButton?: boolean;
   defaultSort?: SortKey;
@@ -33,6 +45,7 @@ export function ItemGrid({
   const [sort, setSort] = useState<SortKey>(defaultSort);
   const [editing, setEditing] = useState<Item | null>(null);
   const [open, setOpen] = useState(false);
+  const [confirmClear, setConfirmClear] = useState(false);
 
   const filtered = useMemo(() => {
     let list = items.slice();
@@ -77,6 +90,7 @@ export function ItemGrid({
         sort={sort}
         onSort={setSort}
         onAdd={showAddButton && onCreate ? openNew : undefined}
+        onClearAll={onClearAll ? () => setConfirmClear(true) : undefined}
         showStatusFilter={showStatusFilter}
       />
 
@@ -121,6 +135,30 @@ export function ItemGrid({
           else if (onCreate) onCreate(data);
         }}
       />
+
+      <AlertDialog open={confirmClear} onOpenChange={setConfirmClear}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>清空所有物品？</AlertDialogTitle>
+            <AlertDialogDescription>
+              此操作将删除所有物品记录，且无法撤销。你确定要继续吗？
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setConfirmClear(false)}>
+              取消
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                onClearAll?.();
+                setConfirmClear(false);
+              }}
+            >
+              确认清空
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
