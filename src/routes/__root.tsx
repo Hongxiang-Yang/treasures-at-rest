@@ -89,6 +89,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Idle — Track your unused things" },
+      { name: "description", content: "Track your unused second-hand items with a beautiful, modern web app." },
+      { property: "og:description", content: "Track your unused second-hand items with a beautiful, modern web app." },
+      { name: "twitter:description", content: "Track your unused second-hand items with a beautiful, modern web app." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2c01a167-bddb-4257-9733-08126721b2d5/id-preview-b0204488--1d326212-9523-4e29-af49-32e778ef2a86.lovable.app-1783091805389.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2c01a167-bddb-4257-9733-08126721b2d5/id-preview-b0204488--1d326212-9523-4e29-af49-32e778ef2a86.lovable.app-1783091805389.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
