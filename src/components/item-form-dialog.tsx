@@ -40,7 +40,7 @@ function isoToDateInput(iso: string) {
 
 const emptyDraft = (): Draft => ({
   name: "",
-  category: "Electronics",
+  category: "电子产品",
   expectedPrice: 0,
   dateAdded: todayISO(),
   condition: "good",
