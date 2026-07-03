@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Item } from "./items";
-import { store, ensureSeeded, uid } from "./storage";
+import { store, ensureSeeded, clearAllItems, uid } from "./storage";
 
 export function useItems() {
   const [items, setItems] = useState<Item[]>([]);
@@ -47,5 +47,10 @@ export function useItems() {
     [items, persist],
   );
 
-  return { items, loading, create, update, remove, refresh };
+  const clearAll = useCallback(async () => {
+    await clearAllItems();
+    setItems([]);
+  }, []);
+
+  return { items, loading, create, update, remove, clearAll, refresh };
 }
