@@ -3,6 +3,7 @@ import type { Item } from "./items";
 
 const KEY = "idle-inventory.items.v1";
 const SEEDED_KEY = "idle-inventory.seeded.v1";
+const CLEARED_KEY = "idle-inventory.cleared.v1";
 
 export interface ItemStore {
   list(): Promise<Item[]>;
@@ -105,9 +106,17 @@ export const DEMO_ITEMS: Item[] = [
 export async function ensureSeeded(): Promise<void> {
   if (typeof window === "undefined") return;
   if (window.localStorage.getItem(SEEDED_KEY)) return;
+  if (window.localStorage.getItem(CLEARED_KEY)) return;
   const existing = await store.list();
   if (existing.length === 0) {
     await store.save(DEMO_ITEMS);
   }
   window.localStorage.setItem(SEEDED_KEY, "1");
+}
+
+export async function clearAllItems(): Promise<void> {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(KEY);
+  window.localStorage.removeItem(SEEDED_KEY);
+  window.localStorage.setItem(CLEARED_KEY, "1");
 }

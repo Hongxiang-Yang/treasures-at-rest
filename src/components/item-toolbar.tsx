@@ -1,4 +1,4 @@
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,7 @@ export function ItemToolbar({
   sort,
   onSort,
   onAdd,
+  onClearAll,
   showStatusFilter = true,
 }: {
   query: string;
@@ -33,6 +34,7 @@ export function ItemToolbar({
   sort: SortKey;
   onSort: (v: SortKey) => void;
   onAdd?: () => void;
+  onClearAll?: () => void;
   showStatusFilter?: boolean;
 }) {
   return (
@@ -90,15 +92,28 @@ export function ItemToolbar({
         </SelectContent>
       </Select>
 
-      {onAdd && (
-        <Button
-          onClick={onAdd}
-          className="ml-auto rounded-full bg-white/20 text-white shadow-sm hover:bg-white/30 border border-white/10 font-medium"
-        >
-          <Plus className="mr-1.5 h-4 w-4" />
-          添加物品
-        </Button>
-      )}
+      <div className="ml-auto flex items-center gap-2">
+        {onClearAll && (
+          <Button
+            onClick={onClearAll}
+            variant="ghost"
+            className="rounded-full text-white/70 hover:text-white hover:bg-white/10"
+            title="清空所有物品"
+          >
+            <Trash2 className="h-4 w-4" />
+            <span className="hidden sm:inline">清空所有</span>
+          </Button>
+        )}
+        {onAdd && (
+          <Button
+            onClick={onAdd}
+            className="rounded-full bg-white/20 text-white shadow-sm hover:bg-white/30 border border-white/10 font-medium"
+          >
+            <Plus className="mr-1.5 h-4 w-4" />
+            添加物品
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
