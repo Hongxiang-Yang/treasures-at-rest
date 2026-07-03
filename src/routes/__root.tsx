@@ -78,9 +78,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Idle — Track your unused things" },
-      { name: "description", content: "A calm, personal inventory for second-hand items you might sell later." },
+      {
+        name: "description",
+        content: "A calm, personal inventory for second-hand items you might sell later.",
+      },
       { property: "og:title", content: "Idle — Track your unused things" },
-      { property: "og:description", content: "A calm, personal inventory for second-hand items you might sell later." },
+      {
+        property: "og:description",
+        content: "A calm, personal inventory for second-hand items you might sell later.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -114,13 +120,27 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+import { ThemeProvider } from "@/components/theme-provider";
+import { CurrencyProvider } from "@/lib/currency-context";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <CurrencyProvider>
+          <div
+            className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat animate-aerial"
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2500&auto=format&fit=crop')`,
+            }}
+          >
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </div>
+        </CurrencyProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

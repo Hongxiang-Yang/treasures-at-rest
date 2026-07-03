@@ -48,6 +48,10 @@ export function ItemGrid({
     if (category !== "all") list = list.filter((i) => i.category === category);
     if (status !== "all") list = list.filter((i) => i.status === status);
     list.sort((a, b) => {
+      // Sold items always go to the very end
+      if (a.status === "sold" && b.status !== "sold") return 1;
+      if (b.status === "sold" && a.status !== "sold") return -1;
+
       if (sort === "price") return b.expectedPrice - a.expectedPrice;
       if (sort === "recent")
         return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
