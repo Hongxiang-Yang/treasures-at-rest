@@ -3,6 +3,7 @@ import type { Item } from "./items";
 
 const KEY = "idle-inventory.items.v1";
 const SEEDED_KEY = "idle-inventory.seeded.v1";
+const CLEARED_KEY = "idle-inventory.cleared.v1";
 
 export interface ItemStore {
   list(): Promise<Item[]>;
@@ -40,52 +41,52 @@ function daysAgo(n: number): string {
 export const DEMO_ITEMS: Item[] = [
   {
     id: uid(),
-    name: "Sony WH-1000XM4 Headphones",
-    category: "Electronics",
-    expectedPrice: 140,
+    name: "Sony WH-1000XM4 头戴式耳机",
+    category: "电子产品",
+    expectedPrice: 980,
     dateAdded: daysAgo(62),
     condition: "like-new",
-    location: "Office drawer",
-    notes: "Original box and cable included.",
+    location: "办公桌抽屉",
+    notes: "原盒和数据线齐全。",
     status: "active",
   },
   {
     id: uid(),
-    name: "Vintage Leather Jacket",
-    category: "Clothing",
-    expectedPrice: 85,
+    name: "复古皮夹克",
+    category: "服装配饰",
+    expectedPrice: 580,
     dateAdded: daysAgo(140),
     condition: "good",
-    location: "Bedroom wardrobe",
-    notes: "Worn a handful of times. Size M.",
+    location: "卧室衣柜",
+    notes: "只穿过几次，尺码 M。",
     status: "active",
   },
   {
     id: uid(),
-    name: "Kindle Paperwhite (10th gen)",
-    category: "Electronics",
-    expectedPrice: 55,
+    name: "Kindle Paperwhite (第 10 代)",
+    category: "电子产品",
+    expectedPrice: 380,
     dateAdded: daysAgo(28),
     condition: "good",
-    location: "Bookshelf",
+    location: "书架",
     status: "listed",
   },
   {
     id: uid(),
-    name: "IKEA Poäng Armchair",
-    category: "Furniture",
-    expectedPrice: 60,
+    name: "IKEA Poäng 扶手椅",
+    category: "家具",
+    expectedPrice: 420,
     dateAdded: daysAgo(9),
     condition: "good",
-    location: "Living room",
-    notes: "Pickup only.",
+    location: "客厅",
+    notes: "仅限自提。",
     status: "active",
   },
   {
     id: uid(),
-    name: "Hardcover Novel Bundle (12 books)",
-    category: "Books",
-    expectedPrice: 40,
+    name: "精装小说合集 (12 本)",
+    category: "书籍",
+    expectedPrice: 260,
     dateAdded: daysAgo(220),
     condition: "good",
     status: "active",
@@ -93,11 +94,11 @@ export const DEMO_ITEMS: Item[] = [
   {
     id: uid(),
     name: "Nintendo Switch Lite",
-    category: "Electronics",
-    expectedPrice: 110,
+    category: "电子产品",
+    expectedPrice: 760,
     dateAdded: daysAgo(310),
     condition: "fair",
-    notes: "Sold to a coworker.",
+    notes: "已卖给同事。",
     status: "sold",
   },
 ];
@@ -105,9 +106,17 @@ export const DEMO_ITEMS: Item[] = [
 export async function ensureSeeded(): Promise<void> {
   if (typeof window === "undefined") return;
   if (window.localStorage.getItem(SEEDED_KEY)) return;
+  if (window.localStorage.getItem(CLEARED_KEY)) return;
   const existing = await store.list();
   if (existing.length === 0) {
     await store.save(DEMO_ITEMS);
   }
   window.localStorage.setItem(SEEDED_KEY, "1");
+}
+
+export async function clearAllItems(): Promise<void> {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(KEY);
+  window.localStorage.removeItem(SEEDED_KEY);
+  window.localStorage.setItem(CLEARED_KEY, "1");
 }

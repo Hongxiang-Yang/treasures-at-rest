@@ -6,6 +6,8 @@ type ThemeProviderProps = {
   children: React.ReactNode;
   defaultTheme?: Theme;
   storageKey?: string;
+  attribute?: string;
+  enableSystem?: boolean;
 };
 
 type ThemeProviderState = {
@@ -24,6 +26,8 @@ export function ThemeProvider({
   children,
   defaultTheme = "system",
   storageKey = "vite-ui-theme",
+  attribute: _attribute,
+  enableSystem: _enableSystem,
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {

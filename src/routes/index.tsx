@@ -15,7 +15,7 @@ export const Route = createFileRoute("/")({
 });
 
 function IndexPage() {
-  const { items, create, update, remove } = useItems();
+  const { items, create, update, remove, clearAll } = useItems();
   const visible = useMemo(() => items.filter((i) => i.status !== "archived"), [items]);
   const active = useMemo(
     () => visible.filter((i) => i.status === "active" || i.status === "listed"),
@@ -43,6 +43,7 @@ function IndexPage() {
           onCreate={create}
           onUpdate={update}
           onDelete={remove}
+          onClearAll={clearAll}
         />
       </main>
     </div>
