@@ -7,7 +7,7 @@ import { useItems } from "@/lib/use-items";
 export const Route = createFileRoute("/archive")({
   head: () => ({
     meta: [
-      { title: "已归档 — 闲置记录" },
+      { title: "已归档 — 闲置小仓库" },
       { name: "description", content: "已售出或归档的物品。" },
     ],
   }),

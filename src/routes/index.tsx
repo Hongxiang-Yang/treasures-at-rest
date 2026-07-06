@@ -7,7 +7,7 @@ import { useItems } from "@/lib/use-items";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "闲置记录 — Idle" },
+      { title: "闲置小仓库" },
       { name: "description", content: "追踪你的闲置物品及其预期价值。" },
     ],
   }),

@@ -37,10 +37,10 @@ export function AppHeader({
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2 text-white">
-            <div className="grid h-8 w-8 place-items-center rounded-lg bg-white/20 text-white shadow-sm border border-white/10">
-              <Package className="h-4 w-4" />
+            <div className="h-8 w-8 overflow-hidden rounded-lg border border-white/10 shadow-sm">
+              <img src="/logo.png" alt="闲置小仓库" className="h-full w-full object-cover" />
             </div>
-            <span className="font-display text-lg font-semibold tracking-tight">闲置记录</span>
+            <span className="font-display text-lg font-semibold tracking-tight">闲置小仓库</span>
           </Link>
           <nav className="hidden items-center gap-1 sm:flex">
             {navLink("/", "物品列表", <Package className="h-3.5 w-3.5" />)}
